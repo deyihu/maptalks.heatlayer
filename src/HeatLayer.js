@@ -1,8 +1,9 @@
 import CanvasHeat from './CanvasHeat';
 import { renderer, Coordinate, Point, Layer, Canvas } from 'maptalks';
+import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 
 const options = {
-    'max': 15,
+    'max': DEFAULT_MAX,
     'gradient': {
         0.4: 'blue',
         0.6: 'cyan',
@@ -13,7 +14,7 @@ const options = {
     // 'radius': 15,
     // 'blur': 15,
     // 'minOpacity': 0.05,
-    'size': 8,
+    'size': DEFAULT_SIZE,
     'hitDetect': false,
     forceRenderOnMoving: true,
     forceRenderOnZooming: true,

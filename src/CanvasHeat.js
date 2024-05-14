@@ -1,5 +1,6 @@
 // import Intensity from './Intensity';
 import ColorPalette from './ColorPalette';
+import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 const circleCache = {};
 // const IntensityCache = {};
 
@@ -56,8 +57,8 @@ class CanvasHeat {
     }
 
     drawGray(context, data, options) {
-        const max = options.max || 100;
-        const size = options.size || 13;
+        const max = options.max || DEFAULT_MAX;
+        const size = options.size || DEFAULT_SIZE;
         for (const key in options) {
             context[key] = options[key];
         }
