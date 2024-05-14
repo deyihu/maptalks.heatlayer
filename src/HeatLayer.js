@@ -44,6 +44,21 @@ function getGeoJSONFeatureCoordinates(feature) {
 
 function getDataItem(item) {
     if (Array.isArray(item)) {
+        const len = item.length;
+        if (len === 4) {
+            const [x, y, z, count] = item;
+            return {
+                coordinates: [x, y, z],
+                count: count || 1
+            };
+        }
+        if (len === 3) {
+            const [x, y, count] = item;
+            return {
+                coordinates: [x, y],
+                count: count || 1
+            };
+        }
         return {
             coordinates: item,
             count: 1
@@ -72,6 +87,9 @@ function checkData(data) {
         const features = data.features || [];
         for (let i = 0, len = features.length; i < len; i++) {
             const feature = features[i];
+            if (!feature) {
+                continue;
+            }
             if (isGeoJSONFeature(feature)) {
                 const coordinates = getGeoJSONFeatureCoordinates(feature);
                 if (coordinates) {
@@ -82,6 +100,9 @@ function checkData(data) {
     } else if (Array.isArray(data) && typeof data[0] !== 'number') {
         for (let i = 0, len = data.length; i < len; i++) {
             const d = data[i];
+            if (!d) {
+                continue;
+            }
             if (isGeoJSONFeature(d) || isGeoJSONGeometry(d)) {
                 const coordinates = getGeoJSONFeatureCoordinates(d);
                 if (coordinates) {
