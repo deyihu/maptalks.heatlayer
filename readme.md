@@ -42,6 +42,7 @@ const heatLayer = new HeatLayer('heat', {
     size: 10,
     progressiveRender: false,
     progressiveRenderCount: 3000,
+    //custom colors
     // gradient: {
     //     0.4: 'green',
     //     0.6: '#FDD59F',
@@ -80,6 +81,7 @@ or
          size: 10,
          progressiveRender: false,
          progressiveRenderCount: 3000,
+         //custom colors
          // gradient: {
          //     0.4: 'green',
          //     0.6: '#FDD59F',
@@ -105,7 +107,8 @@ It is maptalks Subclass of Layer
   + max: the data item count max value
   + size:the heatmap point size(pixel)
   + progressiveRender: Is it progressive rendering
-  +  progressiveRenderCount: The amount of data per frame during progressive rendering
+  + progressiveRenderCount: The amount of data per frame during progressive rendering
+  + gradient: Color bar, equivalent to Canvas's CanvasGradient
 
 #### methods
 
@@ -120,17 +123,21 @@ the data support Array Object or GeoJSON
       },
       //other data item
   ];
-  //   or
+  // or
 
   const data = {
       type: 'FeatureCollection',
       features: [
-          //features
+          //geojson features
       ]
   }
 ```
 
 * getData()
+
+* config(options) 
+
+update layer.options, This is maptalks. Layer method,It can apply on all Layers
 
 * other methods
 

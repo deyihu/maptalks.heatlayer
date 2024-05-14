@@ -36,6 +36,7 @@
         });
 
         const heatLayer = new maptalks.HeatLayer('heat', {
+            opacity: 1,
             max: 1000,
             size: 10,
             progressiveRender: false,
@@ -87,9 +88,8 @@
 
 
         function debug() {
-
-
             var gui = new lil.GUI({ width: 250 });
+            gui.add(params, 'opacity', 0, 1, 0.1).onChange(update);
             gui.add(params, 'size', 1, 100, 1).onChange(update);
             gui.add(params, 'max', 10, 1000, 10).onChange(update);
             gui.add(params, 'progressiveRender').onChange(update);
