@@ -1,6 +1,6 @@
 import CanvasHeat from './CanvasHeat';
 import { renderer, Coordinate, Point, Layer, Canvas } from 'maptalks';
-import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
+import { Util, DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 
 const options = {
     'max': DEFAULT_MAX,
@@ -47,7 +47,7 @@ function getDataItem(item) {
         return {
             coordinates: item,
             count: 1
-        }
+        };
     }
     if (item.coordinates) {
         item.count = item.count || 1;
@@ -57,9 +57,9 @@ function getDataItem(item) {
         return {
             coordinates: item.toArray(),
             count: 1
-        }
+        };
     }
-    console.error('not support coordinates format', coordinates);
+    console.error('not support coordinates format', item);
     return null;
 }
 
@@ -131,7 +131,7 @@ export class HeatLayer extends Layer {
             return this;
         }
         const heat = checkData(data);
-        MTK.Util.pushIn(this._heats, heat);
+        Util.pushIn(this._heats, heat);
         return this.redraw();
     }
 
@@ -223,7 +223,6 @@ export class HeatLayer extends Layer {
 HeatLayer.mergeOptions(options);
 
 HeatLayer.registerJSONType('HeatLayer');
-
 
 function clearCanvas(canvas) {
     if (!canvas) {
@@ -333,7 +332,6 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         return this;
     }
 
-
     _draw() {
         const map = this.getMap(),
             layer = this.layer;
@@ -346,7 +344,6 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
             this._heater = new CanvasHeat();
         }
         const heats = this._getCurrentNeedRenderGeos();
-
 
         const { width, height } = map.getSize();
         const size = this.layer.options.size || 8;
@@ -364,7 +361,6 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         ymax += dy;
 
         const isValidate = xmin < xmax && ymin < ymax;
-
 
         const pixels = [];
         const coordTransformSupportBatch = map.coordinatesToContainerPoints;
@@ -387,7 +383,7 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
                 const pt = map.coordToContainerPoint(item._c);
                 pixels.push({
                     xy: [pt.x, pt.y],
-                    count: count || 1,
+                    count: count || 1
                     // type: 'Point'
                 });
             } else {
@@ -401,7 +397,7 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
                 const pt = pts[i];
                 pixels.push({
                     xy: [pt.x, pt.y],
-                    count: filterHeats[i].count || 1,
+                    count: filterHeats[i].count || 1
                     // type: 'Point'
                 });
             }
