@@ -1,6 +1,6 @@
 import CanvasHeat from './CanvasHeat';
-import { renderer, Coordinate, Point, Layer, Canvas } from 'maptalks';
-import { Util, DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
+import { Util, renderer, Coordinate, Point, Layer, Canvas } from 'maptalks';
+import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 
 const options = {
     'max': DEFAULT_MAX,
@@ -345,22 +345,25 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         }
         const heats = this._getCurrentNeedRenderGeos();
 
-        const { width, height } = map.getSize();
-        const size = this.layer.options.size || 8;
-        const p1 = new Point(width / 2 + size * 2, height / 2);
-        const p2 = new Point(width / 2, height / 2 + size * 2);
-        const c1 = map.containerPointToCoord(p1);
-        const c2 = map.containerPointToCoord(p2);
-        const center = map.getCenter();
-        const dx = Math.max(Math.abs(c1.x - center.x), Math.abs(c2.x - center.x));
-        const dy = Math.max(Math.abs(c1.y - center.y), Math.abs(c2.y - center.y));
         let { xmin, ymin, xmax, ymax } = map.getExtent();
-        xmin -= dx;
-        ymin -= dy;
-        xmax += dx;
-        ymax += dy;
 
-        const isValidate = xmin < xmax && ymin < ymax;
+        let isValidate = xmin < xmax && ymin < ymax;
+        if (isValidate) {
+            const { width, height } = map.getSize();
+            const size = this.layer.options.size || 8;
+            const p1 = new Point(width / 2 + size * 2, height / 2);
+            const p2 = new Point(width / 2, height / 2 + size * 2);
+            const c1 = map.containerPointToCoord(p1);
+            const c2 = map.containerPointToCoord(p2);
+            const center = map.getCenter();
+            const dx = Math.max(Math.abs(c1.x - center.x), Math.abs(c2.x - center.x));
+            const dy = Math.max(Math.abs(c1.y - center.y), Math.abs(c2.y - center.y));
+            xmin -= dx;
+            ymin -= dy;
+            xmax += dx;
+            ymax += dy;
+            isValidate = xmin < xmax && ymin < ymax;
+        }
 
         const pixels = [];
         const coordTransformSupportBatch = map.coordinatesToContainerPoints;
