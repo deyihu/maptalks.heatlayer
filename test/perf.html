@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Map - Display a map</title>
+<style type="text/css">
+    html,
+    body {
+        margin: 0px;
+        height: 100%;
+        width: 100%
+    }
+
+    .container {
+        width: 100%;
+        height: 100%
+    }
+</style>
+<link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css' />
+<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.js'></script>
+<script src="./../dist/maptalks.heatlayer.js"></script>
+<script src="./lil-gui.min.js"></script>
+<body>
+
+    <div id="map" class="container"></div>
+
+    <script>
+        var map = new maptalks.Map('map', {
+            "center": [110.60206504, 30.96980937], "zoom": 5.104493784786973, "pitch": 35.30000000000007, "bearing": -3.081950397161336,
+            baseLayer: new maptalks.TileLayer('base', {
+                urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+                subdomains: ["a", "b", "c", "d"],
+                attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+            })
+        });
+
+        const heatLayer = new maptalks.HeatLayer('heat', {
+            max: 10,
+            progressiveRender: true,
+            progressiveRenderCount: 5000,
+            size: 5,
+            // gradient: {
+            //     0.4: 'green',
+            //     0.6: '#FDD59F',
+            //     0.7: '#FC8E58',
+            //     0.8: '#D82C19',
+            //     1.0: '#800000'
+            // }
+        }).addTo(map);
+
+        fetch('./pois.json').then(res => res.json()).then(data => {
+            // const coordinates = data.map(d => {
+            //     const [y, x, count] = d;
+            //     return {
+            //         coordinates: [x, y],
+            //         count: parseInt(count)
+            //     }
+            // });
+
+            heatLayer.setData(data);
+            // console.log(JSON.stringify(pois))
+        })
+
+    </script>
+</body>
+
+</html>
