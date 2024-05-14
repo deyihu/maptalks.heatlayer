@@ -135,9 +135,8 @@ It is maptalks Subclass of Layer
 
 #### methods
 
-* setData(data)
-
-the data support Array Object or GeoJSON
+* setData(data)  
+    the data support Array Object or GeoJSON
 
 ```js
   const data = [{
@@ -156,13 +155,15 @@ the data support Array Object or GeoJSON
   }
 ```
 
-* getData()
+* getData()  
+    get current data
 
 ```js
 heatLayer.getData()
 ```
 
-* config(options) 
+* config(options)  
+   update layer.options, This is maptalks. Layer method, It can apply on all Layers
 
 ```js
 heatLayer.config({
@@ -171,8 +172,6 @@ heatLayer.config({
     progressiveRender: true
 });
 ```
-
- update layer.options, This is maptalks. Layer method, It can apply on all Layers
 
 * other methods
 
