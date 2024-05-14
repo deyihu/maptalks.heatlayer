@@ -18,7 +18,7 @@
 </style>
 <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.css' />
 <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.js'></script>
-<script src="./../dist/maptalks.heatlayer.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/maptalks.heatlayer/dist/maptalks.heatlayer.js"></script>
 <script src="./lil-gui.min.js"></script>
 <body>
 
@@ -26,6 +26,7 @@
 
     <script>
         var map = new maptalks.Map('map', {
+            cameraInfiniteFar: true,
             "center": [110.60206504, 30.96980937], "zoom": 5.104493784786973, "pitch": 35.30000000000007, "bearing": -3.081950397161336,
             baseLayer: new maptalks.TileLayer('base', {
                 urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
