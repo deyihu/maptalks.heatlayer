@@ -7,8 +7,14 @@ The HeatMap code from [Baidu mapv project](https://github.com/huiyan-fe/mapv/blo
 ## Features
 
 * Progressive rendering with large amounts of data
+* support altitude
 
 ## Examples
+
+[Base](https://deyihu.github.io/maptalks.heatlayer/test/index.html)  
+[Custom gradient](https://deyihu.github.io/maptalks.heatlayer/test/gradient.html)  
+[with altitude](https://deyihu.github.io/maptalks.heatlayer/test/altitude.html)  
+[test performance](https://deyihu.github.io/maptalks.heatlayer/test/perf.html)  
 
 ## Install
 
@@ -20,15 +26,32 @@ npm i maptalks.heatlayer
 or
 
 ```html
-<script type="text/javascript" src="https://unpkg.com/maptalks/dist/maptalks.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/maptalks/dist/maptalks.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/maptalks.heatlayer/dist/maptalks.heatlayer.js"></script>
 ```
 
 ## Use
 
 ```js
 import {
+    Map,
+    TileLayer
+} from 'maptalks';
+import {
     HeatLayer
 } from 'maptalks.heatlayer';
+
+var map = new Map('map', {
+    "center": [175.48021061, -37.851338],
+    "zoom": 12.980308680504713,
+    "pitch": 68.45000000000007,
+    "bearing": -122.42347481389616,
+    baseLayer: new TileLayer('base', {
+        urlTemplate: 'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}.png',
+        subdomains: ["a", "b", "c", "d"],
+        attribution: '&copy; <a href="http://osm.org">OpenStreetMap</a> contributors, &copy; <a href="https://carto.com/">CARTO</a>'
+    })
+});
 
 const data = [{
         coordinates: [0, 0, 0],
@@ -54,7 +77,7 @@ const heatLayer = new HeatLayer('heat', {
 heatLayer.setData(data);
 ```
 
-or
+or If you use the umd package
 
 ```html
  <script>
@@ -135,13 +158,25 @@ the data support Array Object or GeoJSON
 
 * getData()
 
+```js
+heatLayer.getData()
+```
+
 * config(options) 
 
-update layer.options, This is maptalks. Layer method,It can apply on all Layers
+```js
+heatLayer.config({
+    size: 12,
+    max: 100,
+    progressiveRender: true
+});
+```
+
+ update layer.options, This is maptalks. Layer method, It can apply on all Layers
 
 * other methods
 
-Because it is maptalks Subclass of Layer, so you can use maptalks Layer's method  
+   Because it is maptalks Subclass of Layer, so you can use maptalks Layer's method  
 
   + show()
   + hide(); 
