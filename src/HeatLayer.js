@@ -378,6 +378,10 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         let { xmin, ymin, xmax, ymax } = map.getExtent();
 
         let isValidate = xmin < xmax && ymin < ymax;
+        const scale = map.getScale();
+        if (scale > 170309) {
+            isValidate = false;
+        }
         if (isValidate) {
             const { width, height } = map.getSize();
             const size = this.layer.options.size || 8;
@@ -388,11 +392,15 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
             const center = map.getCenter();
             const dx = Math.max(Math.abs(c1.x - center.x), Math.abs(c2.x - center.x));
             const dy = Math.max(Math.abs(c1.y - center.y), Math.abs(c2.y - center.y));
+            const x1 = xmin, x2 = xmax, y1 = ymin, y2 = ymax;
             xmin -= dx;
             ymin -= dy;
             xmax += dx;
             ymax += dy;
             isValidate = xmin < xmax && ymin < ymax;
+            if (isValidate) {
+                isValidate = xmin < x1 && xmax > x2 && ymin < y1 && ymax > y2;
+            }
         }
 
         const pixels = [];
