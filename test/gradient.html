@@ -72,8 +72,8 @@
                 timeout = setTimeout(() => {
                     func.apply(context, args);
 
-                    timeout = null;
-                    called = false;
+                    // timeout = null;
+                    // called = false;
                     console.log('apply');
 
                 }, wait);
