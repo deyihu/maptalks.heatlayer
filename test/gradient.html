@@ -37,15 +37,16 @@
         });
 
         const heatLayer = new maptalks.HeatLayer('heat', {
-            max: 1000,
+            max: 2000,
+            size: 8,
             progressiveRender: false,
             progressiveRenderCount: 3000,
             gradient: {
-                0.4: '#177E05',
-                0.6: '#FDD59F',
-                0.7: '#FC8E58',
-                0.8: '#D82C19',
-                1: '#800000'
+                0.4: '#177e05',
+                0.6: '#0e32e1',
+                0.7: '#fc8e58',
+                0.8: '#bc1010',
+                1: '#000000'
             }
         }).addTo(map);
 
@@ -83,9 +84,7 @@
         const params = Object.assign({}, heatLayer.options.gradient);
 
         function updateLayerOptions() {
-            // const options=
-            heatLayer.options.gradient = params;
-            heatLayer.config(heatLayer.options);
+            heatLayer.config({ gradient: Object.assign({}, params) });
         }
         const update = debounce(updateLayerOptions, 40);
 
