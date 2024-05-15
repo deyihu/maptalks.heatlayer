@@ -1,6 +1,7 @@
 import CanvasHeat from './CanvasHeat';
 import { Util, renderer, Coordinate, Point, Layer, Canvas } from 'maptalks';
 import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
+import ColorPalette from './ColorPalette';
 
 const options = {
     'max': DEFAULT_MAX,
@@ -135,6 +136,11 @@ export class HeatLayer extends Layer {
     constructor(id, options) {
         super(id, options);
         this._heats = [];
+        this._updateGradientImageData();
+    }
+
+    _updateGradientImageData() {
+        this.gradientImageData = ColorPalette.getImageData(this.options);
     }
 
     getData() {
@@ -159,6 +165,9 @@ export class HeatLayer extends Layer {
     onConfig(conf) {
         for (const p in conf) {
             if (options[p]) {
+                if (p === 'gradient') {
+                    this._updateGradientImageData();
+                }
                 return this.redraw();
             }
         }
@@ -433,7 +442,7 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         if (needScale) {
             this.snapshotCanvasCtx.scale(dpr, dpr);
         }
-        this._heater.draw(this.snapshotCanvasCtx || this.context, pixels, this.layer.options, this.context);
+        this._heater.draw(this.snapshotCanvasCtx || this.context, pixels, this.layer.options, this.context, this.layer.gradientImageData);
         if (needScale) {
             const rScale = 1 / dpr;
             this.snapshotCanvasCtx.scale(rScale, rScale);

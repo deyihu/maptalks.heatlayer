@@ -108,28 +108,32 @@ class CanvasHeat {
         }
     }
 
-    draw(context, data, options, resultContext) {
+    draw(context, data, options, resultContext, gradientImageData) {
         const { canvas } = context;
-        if (!canvas || canvas.width === 0 || canvas.height === 0) {
+        if (!canvas) {
+            return;
+        }
+        const { width, height } = canvas;
+        if (width === 0 || height === 0) {
             return;
         }
         options = options || {};
         // context.save();
         this.drawGray(context, data, options);
-        if (!options.absolute) {
-            const colored = context.getImageData(0, 0, context.canvas.width, context.canvas.height);
-            this.colorize(colored.data, ColorPalette.getImageData({
-                defaultGradient: options.gradient || {
-                    0.25: 'rgba(0, 0, 255, 1)',
-                    0.55: 'rgba(0, 255, 0, 1)',
-                    0.85: 'rgba(255, 255, 0, 1)',
-                    1.0: 'rgba(255, 0, 0, 1)'
-                }
-            }), options);
-            resultContext.putImageData(colored, 0, 0);
-            // context.restore();
-            // return colored;
-        }
+        const colored = context.getImageData(0, 0, width, height);
+        gradientImageData = gradientImageData || ColorPalette.getImageData({
+            defaultGradient: options.gradient || {
+                0.4: 'blue',
+                0.6: 'cyan',
+                0.7: 'lime',
+                0.8: 'yellow',
+                1.0: 'red'
+            }
+        });
+        this.colorize(colored.data, gradientImageData, options);
+        resultContext.putImageData(colored, 0, 0);
+        // context.restore();
+
     }
 }
 
