@@ -61,25 +61,25 @@
             debug();
         })
 
+
         function debounce(func, wait) {
             let timeout;
             return function () {
                 const context = this;
                 const args = arguments;
-                if (!timeout) {
-                    func.apply(context, args);
-                    timeout = -1;
-                    return;
-                }
                 if (timeout) clearTimeout(timeout);
                 // const callNow = !timeout;
                 timeout = setTimeout(() => {
                     func.apply(context, args);
+
                     timeout = null;
+                    called = false;
+                    console.log('apply');
+
                 }, wait);
+
             };
         }
-
         const params = Object.assign({}, heatLayer.options.gradient);
 
         function updateLayerOptions() {
