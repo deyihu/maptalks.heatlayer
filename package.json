@@ -1,6 +1,6 @@
 {
   "name": "maptalks.heatlayer",
-  "version": "0.4.2",
+  "version": "0.4.3",
   "description": "heatmap layer by maptalksjs",
   "main": "dist/maptalks.heatlayer.js",
   "module": "index.js",
