@@ -1,4 +1,5 @@
 // import Intensity from './Intensity';
+import { Browser } from 'maptalks';
 import ColorPalette from './ColorPalette';
 import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 const circleCache = {};
@@ -38,6 +39,11 @@ class CanvasHeat {
         context.closePath();
         context.fill();
         circleCache[size] = circle;
+        if (Browser.decodeImageInWorker) {
+            createImageBitmap(circle).then(imgbitMap => {
+                circleCache[size] = imgbitMap;
+            });
+        }
         return circle;
     }
 
