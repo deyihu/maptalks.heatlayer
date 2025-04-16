@@ -406,6 +406,7 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
         const pixels = [];
         const coordTransformSupportBatch = map.coordinatesToContainerPoints;
         const coords = [], filterHeats = [];
+        let idx = 0;
         for (let i = 0, len = heats.length; i < len; i++) {
             const item = heats[i];
             const { coordinates, count } = item;
@@ -422,25 +423,24 @@ HeatLayer.registerRenderer('canvas', class extends renderer.CanvasRenderer {
             }
             if (!coordTransformSupportBatch) {
                 const pt = map.coordToContainerPoint(item._c);
-                pixels.push({
+                pixels[idx] = {
                     xy: [pt.x, pt.y],
                     count: count || 1
-                    // type: 'Point'
-                });
+                };
             } else {
-                coords.push(item._c);
-                filterHeats.push(item);
+                coords[idx] = item._c;
+                filterHeats[idx] = item;
             }
+            idx++;
         }
         if (coordTransformSupportBatch) {
             const pts = map.coordinatesToContainerPoints(coords);
             for (let i = 0, len = pts.length; i < len; i++) {
                 const pt = pts[i];
-                pixels.push({
+                pixels[i] = {
                     xy: [pt.x, pt.y],
                     count: filterHeats[i].count || 1
-                    // type: 'Point'
-                });
+                };
             }
         }
         // const time = 'time';

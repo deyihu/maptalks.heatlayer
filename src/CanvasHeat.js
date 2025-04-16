@@ -4,6 +4,7 @@ import ColorPalette from './ColorPalette';
 import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
 const circleCache = {};
 // const IntensityCache = {};
+const ALPHACache = new Map();
 
 function roundFun(value, n) {
     const tempValue = Math.pow(10, n);
@@ -49,6 +50,7 @@ class CanvasHeat {
 
     colorize(pixels, gradient, options) {
         const maxOpacity = options.maxOpacity || 0.8;
+        const opacity = 256 * maxOpacity;
         for (let i = 3, len = pixels.length, j; i < len; i += 4) {
             const alpha = pixels[i];
             if (alpha === 0) {
@@ -57,7 +59,7 @@ class CanvasHeat {
             j = alpha * 4; // get gradient color from opacity value
 
             if (alpha / 256 > maxOpacity) {
-                pixels[i] = 256 * maxOpacity;
+                pixels[i] = opacity;
             }
 
             pixels[i - 3] = gradient[j];
@@ -88,25 +90,34 @@ class CanvasHeat {
         // }
         const circle = this.createCircle(size);
         const dataOrderByAlpha = {};
+        const temp = ALPHACache;
+        temp.clear();
         for (let i = 0, len = data.length; i < len; i++) {
             const item = data[i];
             const count = item.count || 1;
-            const alpha = Math.min(1, roundFun(count / max, 2));
+            let alpha = temp.get(count);
+            if (alpha === undefined) {
+                alpha = Math.min(1, roundFun(count / max, 2));
+                temp.set(count, alpha);
+            }
             dataOrderByAlpha[alpha] = dataOrderByAlpha[alpha] || [];
-            dataOrderByAlpha[alpha].push(item);
+            const len = dataOrderByAlpha[alpha].length;
+            dataOrderByAlpha[alpha][len] = item;
         }
+        temp.clear();
         const w = circle.width / 2, h = circle.height / 2;
+        let globalAlpha = context.globalAlpha;
         for (const i in dataOrderByAlpha) {
             if (isNaN(i)) { continue; }
-            const _data = dataOrderByAlpha[i];
+            const data = dataOrderByAlpha[i];
             // context.beginPath();
-            if (!options.withoutAlpha) {
-                if (context.globalAlpha !== i) {
-                    context.globalAlpha = i;
-                }
+            // if (!options.withoutAlpha) {
+            if (globalAlpha !== i) {
+                context.globalAlpha = globalAlpha = i;
             }
-            for (let j = 0, len = _data.length; j < len; j++) {
-                const item = _data[j];
+            // }
+            for (let j = 0, len = data.length; j < len; j++) {
+                const item = data[j];
                 const xy = item.xy;
                 // const count = item.count || 1;
                 // const alpha = count / max;
