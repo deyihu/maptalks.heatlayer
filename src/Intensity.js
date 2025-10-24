@@ -25,7 +25,7 @@ class Intensity {
         paletteCanvas.width = 256;
         paletteCanvas.height = 1;
 
-        const paletteCtx = this.paletteCtx = paletteCanvas.getContext('2d');
+        const paletteCtx = this.paletteCtx = paletteCanvas.getContext('2d', { willReadFrequently: true });
 
         const lineGradient = paletteCtx.createLinearGradient(0, 0, 256, 1);
 

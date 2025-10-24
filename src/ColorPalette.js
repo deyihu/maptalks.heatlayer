@@ -1,17 +1,20 @@
+import { clearCanvas, getTempCanvas } from './canvas';
+
 class ColorPalette {
     getImageData(config) {
         const gradientConfig = config.gradient || config.defaultGradient;
-        let paletteCanvas;
-        if (typeof document === 'undefined') {
-            // var Canvas = require('canvas');
-            // paletteCanvas = new Canvas(256, 1);
-        } else {
-            paletteCanvas = document.createElement('canvas');
-        }
-        const paletteCtx = paletteCanvas.getContext('2d');
+        const paletteCanvas = getTempCanvas();
+        // if (typeof document === 'undefined') {
+        //     // var Canvas = require('canvas');
+        //     // paletteCanvas = new Canvas(256, 1);
+        // } else {
+        //     paletteCanvas = document.createElement('canvas');
+        // }
 
         paletteCanvas.width = 256;
         paletteCanvas.height = 1;
+        const paletteCtx = paletteCanvas.getContext('2d', { willReadFrequently: true });
+        clearCanvas(paletteCtx);
 
         const gradient = paletteCtx.createLinearGradient(0, 0, 256, 1);
         for (const key in gradientConfig) {

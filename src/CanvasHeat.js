@@ -2,6 +2,7 @@
 import { Browser } from 'maptalks';
 import ColorPalette from './ColorPalette';
 import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
+import { clearCanvas, getTempCanvas } from './canvas';
 const circleCache = {};
 // const IntensityCache = {};
 const ALPHACache = new Map();
@@ -144,9 +145,18 @@ class CanvasHeat {
             return;
         }
         options = options || {};
+        // resultContext = resultContext || context;
         // context.save();
         this.drawGray(context, data, options);
-        const colored = context.getImageData(0, 0, width, height);
+
+        const tempCanvas = getTempCanvas();
+        tempCanvas.width = width;
+        tempCanvas.height = height;
+        const context1 = tempCanvas.getContext('2d', { willReadFrequently: true });
+        clearCanvas(context1);
+        context1.drawImage(canvas, 0, 0);
+
+        const colored = context1.getImageData(0, 0, width, height);
         gradientImageData = gradientImageData || ColorPalette.getImageData({
             defaultGradient: options.gradient || {
                 0.4: 'blue',
