@@ -14,7 +14,7 @@ const options = {
     },
     // 'radius': 15,
     // 'blur': 15,
-    // 'minOpacity': 0.05,
+    'minOpacity': 0.05,
     'size': DEFAULT_SIZE,
     'hitDetect': false,
     forceRenderOnMoving: true,

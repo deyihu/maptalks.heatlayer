@@ -50,6 +50,7 @@ class CanvasHeat {
 
     colorize(pixels, gradient, options) {
         const maxOpacity = options.maxOpacity || 0.8;
+        const minOpacity = options.minOpacity || 0;
         const opacity = 256 * maxOpacity;
         for (let i = 3, len = pixels.length, j; i < len; i += 4) {
             const alpha = pixels[i];
@@ -60,6 +61,10 @@ class CanvasHeat {
 
             if (alpha / 256 > maxOpacity) {
                 pixels[i] = opacity;
+            }
+
+            if (alpha / 256 < minOpacity) {
+                pixels[i] = 256 * minOpacity;
             }
 
             pixels[i - 3] = gradient[j];
