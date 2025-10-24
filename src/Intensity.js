@@ -1,4 +1,4 @@
-import { getCanvasContext } from "./canvas";
+import { getCanvasContext } from './canvas';
 
 class Intensity {
     constructor(options) {
