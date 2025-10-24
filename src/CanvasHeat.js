@@ -2,7 +2,7 @@
 import { Browser } from 'maptalks';
 import ColorPalette from './ColorPalette';
 import { DEFAULT_MAX, DEFAULT_SIZE } from './Constant';
-import { clearCanvas, getTempCanvas } from './canvas';
+import { clearCanvas, getCanvasContext, getTempCanvas } from './canvas';
 const circleCache = {};
 // const IntensityCache = {};
 const ALPHACache = new Map();
@@ -152,7 +152,7 @@ class CanvasHeat {
         const tempCanvas = getTempCanvas();
         tempCanvas.width = width;
         tempCanvas.height = height;
-        const context1 = tempCanvas.getContext('2d', { willReadFrequently: true });
+        const context1 = getCanvasContext(tempCanvas);
         clearCanvas(context1);
         context1.drawImage(canvas, 0, 0);
 

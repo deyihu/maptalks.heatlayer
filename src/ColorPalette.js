@@ -1,4 +1,4 @@
-import { clearCanvas, getTempCanvas } from './canvas';
+import { clearCanvas, getCanvasContext, getTempCanvas } from './canvas';
 
 class ColorPalette {
     getImageData(config) {
@@ -13,7 +13,7 @@ class ColorPalette {
 
         paletteCanvas.width = 256;
         paletteCanvas.height = 1;
-        const paletteCtx = paletteCanvas.getContext('2d', { willReadFrequently: true });
+        const paletteCtx = getCanvasContext(paletteCanvas);
         clearCanvas(paletteCtx);
 
         const gradient = paletteCtx.createLinearGradient(0, 0, 256, 1);

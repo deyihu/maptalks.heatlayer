@@ -1,3 +1,5 @@
+import { getCanvasContext } from "./canvas";
+
 class Intensity {
     constructor(options) {
         options = options || {};
@@ -25,7 +27,7 @@ class Intensity {
         paletteCanvas.width = 256;
         paletteCanvas.height = 1;
 
-        const paletteCtx = this.paletteCtx = paletteCanvas.getContext('2d', { willReadFrequently: true });
+        const paletteCtx = this.paletteCtx = getCanvasContext(paletteCanvas);
 
         const lineGradient = paletteCtx.createLinearGradient(0, 0, 256, 1);
 
